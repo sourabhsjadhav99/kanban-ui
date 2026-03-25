@@ -34,14 +34,12 @@ npm run preview
 
 Default UI URL: `http://localhost:5173`
 
+## Forms
+- Add-task modal uses **VeeValidate** (`useForm`, `Field`, `ErrorMessage`) with **Yup** schemas via `@vee-validate/yup` (`toTypedSchema`). See `src/components/NewTaskForm.vue`.
+
 ## Data Flow (Vue <-> Node API)
 - `useTasks` composable is the central task state layer.
 - On load, frontend calls `GET /api/tasks` and stores response in reactive state.
 - Add task modal submits to `POST /api/tasks`; success appends task locally.
 - Drag and drop updates UI first, then syncs via `PATCH /api/tasks/:id/status`; failures rollback.
 - Delete action confirms first, then calls `DELETE /api/tasks/:id` and removes task from local state.
-# Vue 3 + TypeScript + Vite
-
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
