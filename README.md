@@ -34,12 +34,17 @@ npm run preview
 
 Default UI URL: `http://localhost:5173`
 
+## Pages
+- Board: `/`
+- Task details: `/tasks/:id` (opens when click a task card)
+
 ## Forms
 - Add-task modal uses **VeeValidate** (`useForm`, `Field`, `ErrorMessage`) with **Yup** schemas via `@vee-validate/yup` (`toTypedSchema`). See `src/components/NewTaskForm.vue`.
 
 ## Data Flow (Vue <-> Node API)
 - `useTasks` composable is the central task state layer.
 - On load, frontend calls `GET /api/tasks` and stores response in reactive state.
+- Task details page calls `GET /api/tasks/:id` so it can be loaded directly by URL.
 - Add task modal submits to `POST /api/tasks`; success appends task locally.
 - Drag and drop updates UI first, then syncs via `PATCH /api/tasks/:id/status`; failures rollback.
 - Delete action confirms first, then calls `DELETE /api/tasks/:id` and removes task from local state.
