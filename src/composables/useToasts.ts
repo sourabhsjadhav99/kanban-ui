@@ -2,10 +2,9 @@ import { ref } from "vue";
 import type { ToastMessage, ToastType } from "../types/toast";
 
 const AUTO_DISMISS_MS = 2800;
+const toasts = ref<ToastMessage[]>([]);
 
 export const useToasts = () => {
-  const toasts = ref<ToastMessage[]>([]);
-
   const removeToast = (toastId: number) => {
     toasts.value = toasts.value.filter((toast) => toast.id !== toastId);
   };
@@ -19,9 +18,5 @@ export const useToasts = () => {
     }, AUTO_DISMISS_MS);
   };
 
-  return {
-    toasts,
-    pushToast,
-    removeToast,
-  };
+  return { toasts, pushToast, removeToast };
 };

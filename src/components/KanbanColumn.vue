@@ -10,6 +10,7 @@ defineEmits<{
   dropTask: [];
   startDrag: [taskId: string];
   deleteTask: [taskId: string];
+  openTask: [taskId: string];
 }>();
 </script>
 
@@ -33,6 +34,7 @@ defineEmits<{
         class="cursor-grab rounded-lg border border-slate-200 bg-white p-3 shadow-sm active:cursor-grabbing"
         draggable="true"
         @dragstart="$emit('startDrag', task._id)"
+        @click="$emit('openTask', task._id)"
       >
         <div class="flex items-start justify-between gap-2">
           <h3 class="font-medium text-slate-800">{{ task.title }}</h3>

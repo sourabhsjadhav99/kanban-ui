@@ -3,15 +3,16 @@ import axios from "axios";
 import type { Task, TaskStatus } from "../types/task";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const taskList = ref<Task[]>([]);
+const draggedTaskId = ref<string | null>(null);
+const isLoadingTasks = ref(false);
+const isLoadingTaskDetails = ref(false);
+const isUpdatingStatus = ref(false);
+const isCreatingTask = ref(false);
+const isDeletingTask = ref(false);
+const errorMessage = ref("");
 
 export const useTasks = () => {
-  const taskList = ref<Task[]>([]);
-  const draggedTaskId = ref<string | null>(null);
-  const isLoadingTasks = ref(false);
-  const isUpdatingStatus = ref(false);
-  const isCreatingTask = ref(false);
-  const isDeletingTask = ref(false);
-  const errorMessage = ref("");
 
   const fetchTasks = async () => {
     isLoadingTasks.value = true;
@@ -54,6 +55,21 @@ export const useTasks = () => {
       return false;
     } finally {
       isCreatingTask.value = false;
+    }
+  };
+
+  const getTaskById = async (taskId: string) => {
+    isLoadingTaskDetails.value = true;
+    errorMessage.value = "";
+    try {
+      const response = await axios.get<Task>(`${API_BASE_URL}/tasks/${taskId}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      errorMessage.value = "Failed to load task details.";
+      return null;
+    } finally {
+      isLoadingTaskDetails.value = false;
     }
   };
 
@@ -136,17 +152,5 @@ export const useTasks = () => {
     draggedTaskId.value = taskId;
   };
 
-  return {
-    errorMessage,
-    isCreatingTask,
-    isDeletingTask,
-    isLoadingTasks,
-    isUpdatingStatus,
-    taskGroups,
-    fetchTasks,
-    createTask,
-    deleteTask,
-    setDraggedTask,
-    updateTaskStatus,
-  };
+  return { errorMessage, isCreatingTask, isDeletingTask, isLoadingTasks, isLoadingTaskDetails, isUpdatingStatus, taskGroups, fetchTasks, createTask, getTaskById, deleteTask, setDraggedTask, updateTaskStatus};
 };
