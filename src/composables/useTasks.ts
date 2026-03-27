@@ -152,5 +152,5 @@ export const useTasks = () => {
     draggedTaskId.value = taskId;
   };
 
-  return { errorMessage, isCreatingTask, isDeletingTask, isLoadingTasks, isLoadingTaskDetails, isUpdatingStatus, taskGroups, fetchTasks, createTask, getTaskById, deleteTask, setDraggedTask, updateTaskStatus};
+  return { tasks: taskList, errorMessage, isCreatingTask, isDeletingTask, isLoadingTasks, isLoadingTaskDetails, isUpdatingStatus, taskGroups, fetchTasks, createTask, getTaskById, deleteTask, setDraggedTask, updateTaskStatus};
 };
